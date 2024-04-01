@@ -10,15 +10,16 @@ def delete_files():
     file_type = filetype_entry.get()
 
     files = glob.glob(os.path.join(directory, f'*.{file_type}'))
-
+    num_deleted = 0
     for file in files:
         try:
             os.remove(file)
             output_text.insert(tk.END, f'Successfully deleted\n{file}\n')
+            num_deleted += 1
         except Exception as e:
             output_text.insert(tk.END, f'Error occurred while deleting file {file}. Error message: {e}\n')
 
-    messagebox.showinfo("Info", "Process completed")
+    messagebox.showinfo("Info", f"Process completed {num_deleted} files deleted.")
 
 def select_directory():
     directory = filedialog.askdirectory()
@@ -47,10 +48,8 @@ filetype_entry = tk.Entry(frame2)
 filetype_entry.pack(side='left')
 filetype_entry.insert(0, 'Enter file type here')
 
-frame3 = tk.Frame(root)
-frame3.pack(fill='x')
 
-delete_button = tk.Button(frame3, text="Delete Files", command=delete_files ,bg="red")
+delete_button = tk.Button(frame2, text="Delete Files", command=delete_files ,bg="red")
 delete_button.pack(side='left')
 
 output_text = tk.Text(root)
